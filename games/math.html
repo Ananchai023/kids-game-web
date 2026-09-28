@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!-- เกมที่ 2: บวกเลข -->
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เกมบวกเลข ➕</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body class="game-page">
+
+  <a class="back-btn" href="../index.html">⬅ กลับหน้าเมนู</a>
+
+  <h1 class="game-title">➕ เกมบวกเลข</h1>
+
+  <!-- แถบแสดงคะแนน -->
+  <div class="status-bar">
+    <span>คะแนน: <span id="score">0</span></span>
+  </div>
+
+  <!-- กล่องโจทย์และตัวเลือกคำตอบ -->
+  <div class="math-box">
+    <!-- โจทย์ เช่น 3 + 5 = ? -->
+    <div class="question" id="question">? + ? = ?</div>
+
+    <!-- ปุ่มตัวเลือก 3 ปุ่ม (JavaScript สร้างให้) -->
+    <div class="choices" id="choices"></div>
+  </div>
+
+  <!-- ข้อความถูก/ผิด -->
+  <div class="message" id="message"></div>
+
+  <script src="../js/math.js"></script>
+</body>
+</html>

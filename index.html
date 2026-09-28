@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+  index.html = หน้าแรก (หน้าเมนู) ของเว็บเกมเด็ก
+  ไฟล์นี้คือ "หน้าบ้าน" ที่เด็กๆ จะเห็นเป็นหน้าแรกเมื่อเปิดเว็บ
+-->
+<html lang="th">
+<head>
+  <!-- charset บอกว่าใช้ภาษาไทยได้ ไม่ให้ตัวอักษรเพี้ยน -->
+  <meta charset="UTF-8" />
+  <!-- viewport ทำให้เว็บแสดงผลสวยบนมือถือ/แท็บเล็ต -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>สวนสนุกเกมเด็ก 🎈</title>
+
+  <!-- ดึงไฟล์ตกแต่ง (CSS) เข้ามาใช้ -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="home">
+
+  <!-- ส่วนหัวของหน้า -->
+  <header class="hero">
+    <h1>🎈 สวนสนุกเกมเด็ก 🎠</h1>
+    <p class="subtitle">เลือกเกมที่อยากเล่นได้เลย!</p>
+  </header>
+
+  <!-- ส่วนแสดงการ์ดเกมทั้งหมด -->
+  <main class="menu">
+
+    <!-- การ์ดเกมที่ 1 -->
+    <a class="game-card color-1" href="games/memory.html">
+      <div class="game-icon">🃏</div>
+      <h2>เกมจับคู่การ์ด</h2>
+      <p>พลิกการ์ดหาคู่ที่เหมือนกัน</p>
+    </a>
+
+    <!-- การ์ดเกมที่ 2 -->
+    <a class="game-card color-2" href="games/math.html">
+      <div class="game-icon">➕</div>
+      <h2>เกมบวกเลข</h2>
+      <p>ฝึกคิดเลขให้เก่งขึ้น</p>
+    </a>
+
+    <!-- การ์ดเกมที่ 3 -->
+    <a class="game-card color-3" href="games/catch.html">
+      <div class="game-icon">🍎</div>
+      <h2>เกมจับผลไม้</h2>
+      <p>คลิกจับผลไม้ให้ทันเวลา</p>
+    </a>
+
+  </main>
+
+  <!-- ส่วนท้ายของหน้า -->
+  <footer class="footer">
+    <p>สร้างด้วย ❤️ เพื่อการเรียนรู้ • HTML + CSS + JavaScript</p>
+  </footer>
+
+</body>
+</html>

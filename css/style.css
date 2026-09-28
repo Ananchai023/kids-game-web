@@ -1,0 +1,274 @@
+/* =====================================================
+   style.css = ไฟล์ตกแต่งหน้าตาเว็บทั้งหมด (สี ขนาด ตำแหน่ง)
+   CSS เปรียบเสมือน "เสื้อผ้าและเครื่องแต่งตัว" ของเว็บ
+   ===================================================== */
+
+/* --- ตั้งค่าพื้นฐานให้ทุกอย่าง --- */
+* {
+  margin: 0;             /* ลบระยะห่างเริ่มต้นของเบราว์เซอร์ */
+  padding: 0;
+  box-sizing: border-box;/* ทำให้การคำนวณขนาดกล่องง่ายขึ้น */
+}
+
+body {
+  /* ฟอนต์ที่อ่านง่าย เหมาะกับเด็ก */
+  font-family: "Comic Sans MS", "Segoe UI", "Tahoma", sans-serif;
+  min-height: 100vh;     /* สูงเต็มหน้าจออย่างน้อย */
+  color: #2d2d2d;
+}
+
+/* พื้นหลังไล่สีสดใสสำหรับหน้าเมนู */
+body.home {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- ส่วนหัว (Hero) --- */
+.hero {
+  text-align: center;
+  padding: 40px 20px 20px;
+}
+
+.hero h1 {
+  font-size: 2.6rem;
+  color: #ff5e7e;
+  text-shadow: 2px 2px 0 #fff;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  margin-top: 10px;
+  color: #555;
+}
+
+/* --- เมนูการ์ดเกม --- */
+.menu {
+  flex: 1;               /* ดันให้ footer อยู่ล่างสุด */
+  display: flex;
+  flex-wrap: wrap;       /* ถ้าจอแคบให้ตกบรรทัดได้ */
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  padding: 30px 20px;
+}
+
+/* หน้าตาการ์ดแต่ละเกม */
+.game-card {
+  width: 240px;
+  padding: 30px 20px;
+  border-radius: 24px;
+  text-align: center;
+  text-decoration: none;   /* ลบขีดเส้นใต้ของลิงก์ */
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* เวลาเอาเมาส์ชี้ ให้การ์ดเด้งขึ้นเล็กน้อย */
+.game-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.25);
+}
+
+.game-icon {
+  font-size: 4rem;
+  margin-bottom: 10px;
+}
+
+.game-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+/* สีพื้นหลังของการ์ดแต่ละใบ ให้แตกต่างกัน */
+.color-1 { background: linear-gradient(135deg, #ff9a9e, #ff5e7e); }
+.color-2 { background: linear-gradient(135deg, #4facfe, #00c6fb); }
+.color-3 { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+
+/* --- ส่วนท้าย --- */
+.footer {
+  text-align: center;
+  padding: 16px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* =====================================================
+   ส่วนที่ใช้ร่วมกันในหน้าเกมทุกเกม
+   ===================================================== */
+
+/* พื้นหลังหน้าเกม */
+body.game-page {
+  background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* ปุ่มกลับหน้าเมนู */
+.back-btn {
+  align-self: flex-start;
+  background: #fff;
+  color: #ff5e7e;
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.15s ease;
+}
+.back-btn:hover { transform: scale(1.05); }
+
+/* หัวข้อในหน้าเกม */
+.game-title {
+  font-size: 2.2rem;
+  color: #fff;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+  margin: 10px 0 4px;
+  text-align: center;
+}
+
+/* แถบแสดงคะแนน/สถานะ */
+.status-bar {
+  display: flex;
+  gap: 20px;
+  background: rgba(255,255,255,0.85);
+  padding: 12px 24px;
+  border-radius: 30px;
+  margin: 10px 0 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #444;
+}
+
+/* ปุ่มทั่วไป (เช่น เริ่มใหม่) */
+.btn {
+  background: #ff5e7e;
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  box-shadow: 0 6px 14px rgba(255,94,126,0.4);
+  transition: transform 0.15s ease;
+}
+.btn:hover { transform: scale(1.05); }
+.btn:active { transform: scale(0.97); }
+
+/* กล่องข้อความแสดงผลชนะ/แจ้งเตือน */
+.message {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 16px;
+  min-height: 32px;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+}
+
+/* =====================================================
+   เกมที่ 1: จับคู่การ์ด (Memory)
+   ===================================================== */
+.memory-board {
+  display: grid;
+  grid-template-columns: repeat(4, 80px); /* 4 คอลัมน์ */
+  gap: 12px;
+  justify-content: center;
+}
+
+.card {
+  width: 80px;
+  height: 80px;
+  background: #ff5e7e;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease;
+}
+
+/* การ์ดที่ยังคว่ำอยู่จะไม่โชว์รูป */
+.card .front { display: none; }
+
+/* การ์ดที่ถูกเปิด หรือจับคู่ได้แล้ว */
+.card.flipped, .card.matched {
+  background: #fff;
+}
+.card.flipped .front,
+.card.matched .front { display: block; }
+
+.card.matched {
+  background: #43e97b;
+  cursor: default;
+}
+
+/* =====================================================
+   เกมที่ 2: บวกเลข
+   ===================================================== */
+.math-box {
+  background: rgba(255,255,255,0.9);
+  padding: 40px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+}
+
+.question {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #4facfe;
+  margin-bottom: 20px;
+}
+
+/* ปุ่มตัวเลือกคำตอบ */
+.choices {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.choice-btn {
+  width: 90px;
+  height: 90px;
+  font-size: 2rem;
+  border: none;
+  border-radius: 20px;
+  background: #4facfe;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 6px 14px rgba(79,172,254,0.4);
+  transition: transform 0.15s ease;
+}
+.choice-btn:hover { transform: scale(1.08); }
+
+/* =====================================================
+   เกมที่ 3: จับผลไม้
+   ===================================================== */
+.catch-area {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 480px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 24px;
+  overflow: hidden;         /* ซ่อนผลไม้ที่ตกออกนอกกรอบ */
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+}
+
+/* ผลไม้แต่ละลูก */
+.fruit {
+  position: absolute;
+  font-size: 2.6rem;
+  cursor: pointer;
+  user-select: none;
+}

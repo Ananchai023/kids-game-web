@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!-- เกมที่ 3: จับผลไม้ -->
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เกมจับผลไม้ 🍎</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body class="game-page">
+
+  <a class="back-btn" href="../index.html">⬅ กลับหน้าเมนู</a>
+
+  <h1 class="game-title">🍎 เกมจับผลไม้</h1>
+
+  <!-- แถบแสดงคะแนนและเวลาที่เหลือ -->
+  <div class="status-bar">
+    <span>คะแนน: <span id="score">0</span></span>
+    <span>เวลา: <span id="time">30</span> วิ</span>
+  </div>
+
+  <!-- ปุ่มเริ่มเล่น -->
+  <button class="btn" id="start">▶ เริ่มเล่น</button>
+
+  <!-- พื้นที่เล่นเกม ผลไม้จะตกลงมาในนี้ -->
+  <div class="catch-area" id="area"></div>
+
+  <!-- ข้อความแสดงผลตอนจบเกม -->
+  <div class="message" id="message"></div>
+
+  <script src="../js/catch.js"></script>
+</body>
+</html>

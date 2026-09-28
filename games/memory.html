@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!-- เกมที่ 1: จับคู่การ์ด (Memory Match) -->
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เกมจับคู่การ์ด 🃏</title>
+  <!-- ../ หมายถึงถอยออกจากโฟลเดอร์ games ไป 1 ขั้น เพื่อหาโฟลเดอร์ css -->
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body class="game-page">
+
+  <!-- ปุ่มกลับหน้าเมนู -->
+  <a class="back-btn" href="../index.html">⬅ กลับหน้าเมนู</a>
+
+  <h1 class="game-title">🃏 เกมจับคู่การ์ด</h1>
+
+  <!-- แถบแสดงสถานะ: จำนวนครั้งที่พลิก และจำนวนคู่ที่จับได้ -->
+  <div class="status-bar">
+    <span>พลิก: <span id="moves">0</span> ครั้ง</span>
+    <span>จับคู่ได้: <span id="pairs">0</span> / 8</span>
+  </div>
+
+  <!-- กระดานวางการ์ด (JavaScript จะสร้างการ์ดใส่ในนี้) -->
+  <div class="memory-board" id="board"></div>
+
+  <!-- ข้อความแสดงตอนชนะ -->
+  <div class="message" id="message"></div>
+
+  <!-- ปุ่มเริ่มเกมใหม่ -->
+  <button class="btn" id="restart" style="margin-top:16px;">🔄 เริ่มใหม่</button>
+
+  <!-- ดึงไฟล์สมองของเกม (JavaScript) เข้ามาทำงาน -->
+  <script src="../js/memory.js"></script>
+</body>
+</html>

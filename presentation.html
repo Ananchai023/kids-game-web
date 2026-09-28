@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<!--
+  presentation.html = สไลด์นำเสนอสำหรับสอน (ไฟล์เดียวจบ ไม่ต้องลงอะไร)
+  วิธีใช้: ดับเบิลคลิกเปิดในเบราว์เซอร์ แล้วกดลูกศร ซ้าย/ขวา เพื่อเปลี่ยนสไลด์
+-->
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>สไลด์สอน: สร้างเว็บเกมเด็ก</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Comic Sans MS", "Segoe UI", "Tahoma", sans-serif;
+      background: #1e1e2e;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* พื้นที่แสดงสไลด์ */
+    .slide {
+      display: none;               /* ซ่อนทุกสไลด์ไว้ก่อน */
+      width: 100vw;
+      height: 100vh;
+      padding: 60px 80px;
+      flex-direction: column;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .slide.active { display: flex; } /* โชว์เฉพาะสไลด์ที่ active */
+
+    .slide h1 { font-size: 3.2rem; margin-bottom: 20px; }
+    .slide h2 { font-size: 2.4rem; margin-bottom: 24px; color: #ffe08a; }
+    .slide p, .slide li { font-size: 1.5rem; line-height: 2; }
+    .slide ul { margin-left: 40px; }
+    .slide .big-emoji { font-size: 6rem; margin-bottom: 20px; }
+
+    .center { align-items: center; text-align: center; }
+
+    code {
+      background: rgba(0,0,0,0.35);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 1.3rem;
+      color: #a6f0c6;
+    }
+
+    pre {
+      background: rgba(0,0,0,0.4);
+      padding: 20px 26px;
+      border-radius: 12px;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      margin-top: 16px;
+      overflow-x: auto;
+      color: #a6f0c6;
+    }
+
+    /* กล่องเปรียบเทียบ 3 ภาษา */
+    .cards { display: flex; gap: 24px; margin-top: 30px; }
+    .card-box {
+      flex: 1;
+      background: rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 26px;
+      text-align: center;
+    }
+    .card-box .big-emoji { font-size: 3.5rem; margin-bottom: 10px; }
+    .card-box h3 { font-size: 1.6rem; margin-bottom: 10px; color: #ffe08a; }
+    .card-box p { font-size: 1.15rem; }
+
+    /* แถบควบคุมด้านล่าง */
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      right: 30px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      z-index: 10;
+    }
+    .controls button {
+      background: rgba(255,255,255,0.9);
+      border: none;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .page-num {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      font-size: 1.1rem;
+      opacity: 0.8;
+    }
+    .hint {
+      position: fixed;
+      top: 20px;
+      right: 30px;
+      font-size: 0.95rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= สไลด์ 1: หน้าปก ================= -->
+  <section class="slide active center">
+    <div class="big-emoji">🎈🎮</div>
+    <h1>สร้างเว็บเกมสำหรับเด็ก</h1>
+    <p>เริ่มจาก 0 ด้วย HTML + CSS + JavaScript</p>
+    <p style="margin-top:30px; opacity:0.85;">กดลูกศร ➡ เพื่อเริ่ม</p>
+  </section>
+
+  <!-- ================= สไลด์ 2: เว็บคืออะไร ================= -->
+  <section class="slide">
+    <h2>เว็บไซต์ คืออะไร?</h2>
+    <p>เว็บไซต์ = หน้าเอกสารที่เปิดดูผ่าน "เบราว์เซอร์" (Chrome, Edge)</p>
+    <p style="margin-top:20px;">เว็บ 1 หน้า ประกอบด้วย 3 ส่วนหลัก เหมือนสร้างตุ๊กตา 1 ตัว 👇</p>
+  </section>
+
+  <!-- ================= สไลด์ 3: 3 ภาษาของเว็บ ================= -->
+  <section class="slide">
+    <h2>3 ส่วนของเว็บ</h2>
+    <div class="cards">
+      <div class="card-box">
+        <div class="big-emoji">🦴</div>
+        <h3>HTML</h3>
+        <p>โครงกระดูก<br/>กำหนดว่ามีอะไรบ้าง</p>
+      </div>
+      <div class="card-box">
+        <div class="big-emoji">👕</div>
+        <h3>CSS</h3>
+        <p>เสื้อผ้า<br/>กำหนดสีและหน้าตา</p>
+      </div>
+      <div class="card-box">
+        <div class="big-emoji">🧠</div>
+        <h3>JavaScript</h3>
+        <p>สมอง<br/>ทำให้ขยับและโต้ตอบได้</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= สไลด์ 4: เตรียมเครื่องมือ ================= -->
+  <section class="slide">
+    <h2>🛠️ เตรียมเครื่องมือ</h2>
+    <ul>
+      <li>เบราว์เซอร์ (มีอยู่แล้วในเครื่อง)</li>
+      <li>โปรแกรมแก้ไขข้อความ — แนะนำ <code>Visual Studio Code</code> (ฟรี)</li>
+    </ul>
+    <p style="margin-top:24px;">✅ ไม่ต้องติดตั้งภาษาหรือเซิร์ฟเวอร์ใด ๆ เบราว์เซอร์อ่านได้เอง</p>
+  </section>
+
+  <!-- ================= สไลด์ 5: โครงสร้างโฟลเดอร์ ================= -->
+  <section class="slide">
+    <h2>📁 โครงสร้างโปรเจกต์</h2>
+    <pre>kids-game-web/
+├── index.html        ← หน้าเมนูเลือกเกม
+├── css/style.css     ← ไฟล์แต่งหน้าตา
+├── js/               ← สมองของแต่ละเกม
+│   ├── memory.js
+│   ├── math.js
+│   └── catch.js
+└── games/            ← หน้าเว็บแต่ละเกม
+    ├── memory.html
+    ├── math.html
+    └── catch.html</pre>
+  </section>
+
+  <!-- ================= สไลด์ 6: HTML ตัวอย่าง ================= -->
+  <section class="slide">
+    <h2>🦴 HTML — โครงสร้าง</h2>
+    <p>เขียนด้วย "แท็ก" ในเครื่องหมาย &lt; &gt; ส่วนใหญ่มาเป็นคู่ เปิด-ปิด</p>
+    <pre>&lt;h1&gt;หัวข้อใหญ่&lt;/h1&gt;
+&lt;p&gt;ย่อหน้าข้อความ&lt;/p&gt;
+&lt;button&gt;ปุ่มกดได้&lt;/button&gt;</pre>
+  </section>
+
+  <!-- ================= สไลด์ 7: CSS ตัวอย่าง ================= -->
+  <section class="slide">
+    <h2>👕 CSS — ความสวยงาม</h2>
+    <p>เลือก element แล้วบอกว่าอยากให้หน้าตาเป็นแบบไหน</p>
+    <pre>h1 {
+  color: red;        /* สีตัวอักษร */
+  font-size: 40px;   /* ขนาด */
+}</pre>
+  </section>
+
+  <!-- ================= สไลด์ 8: JavaScript ตัวอย่าง ================= -->
+  <section class="slide">
+    <h2>🧠 JavaScript — การโต้ตอบ</h2>
+    <p>หลักการ 3 ขั้น: หา element → รอเหตุการณ์ → เปลี่ยนหน้าเว็บ</p>
+    <pre>const btn = document.getElementById("start");
+
+btn.addEventListener("click", function () {
+  score = score + 1;   // เพิ่มคะแนน
+});</pre>
+  </section>
+
+  <!-- ================= สไลด์ 9: เกมทั้ง 3 ================= -->
+  <section class="slide">
+    <h2>🎮 เกมทั้ง 3 ที่เราสร้าง</h2>
+    <div class="cards">
+      <div class="card-box">
+        <div class="big-emoji">🃏</div>
+        <h3>จับคู่การ์ด</h3>
+        <p>พลิกหาคู่ที่เหมือนกัน ฝึกความจำ</p>
+      </div>
+      <div class="card-box">
+        <div class="big-emoji">➕</div>
+        <h3>บวกเลข</h3>
+        <p>เลือกคำตอบที่ถูก ฝึกคิดเลข</p>
+      </div>
+      <div class="card-box">
+        <div class="big-emoji">🍎</div>
+        <h3>จับผลไม้</h3>
+        <p>คลิกให้ทันเวลา ฝึกปฏิกิริยา</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= สไลด์ 10: วิธีเปิดเว็บ ================= -->
+  <section class="slide">
+    <h2>▶️ วิธีเปิดดูผลงาน</h2>
+    <ul>
+      <li><b>ง่ายสุด:</b> ดับเบิลคลิกไฟล์ <code>index.html</code></li>
+      <li><b>มืออาชีพ:</b> ใช้ VS Code + ส่วนขยาย <code>Live Server</code></li>
+    </ul>
+    <p style="margin-top:24px;">แล้วเว็บจะเปิดในเบราว์เซอร์ พร้อมให้เล่นทันที!</p>
+  </section>
+
+  <!-- ================= สไลด์ 11: ต่อยอด ================= -->
+  <section class="slide">
+    <h2>🚀 ลองต่อยอด</h2>
+    <ul>
+      <li>🟢 เปลี่ยนสี เปลี่ยนรูปสัตว์/ผลไม้</li>
+      <li>🟡 เพิ่มเวลา ทำโจทย์เลขให้ยากขึ้น</li>
+      <li>🔴 เพิ่มเกมใหม่ เก็บ High Score</li>
+    </ul>
+    <p style="margin-top:24px;">อ่านรายละเอียดเพิ่มในไฟล์ <code>MANUAL.md</code></p>
+  </section>
+
+  <!-- ================= สไลด์ 12: นำขึ้นออนไลน์ ================= -->
+  <section class="slide">
+    <h2>🌐 นำเว็บขึ้นออนไลน์ (ฟรี)</h2>
+    <p>เว็บเราเป็น "เว็บนิ่ง" นำขึ้นโฮสต์ฟรีได้ง่ายมาก เพื่อให้ได้ URL แชร์ได้</p>
+    <ul>
+      <li><b>Netlify</b> — ง่ายสุด ลากโฟลเดอร์ไปวาง (ฟรี)</li>
+      <li><b>GitHub Pages</b> — ฟรี เก็บโค้ดไปด้วย</li>
+      <li><b>Vercel / Cloudflare Pages</b> — ฟรี</li>
+      <li><b>Azure Static Web Apps</b> — คลาวด์ Microsoft (มีแผน Free)</li>
+      <li><b>AWS S3 / Amplify</b> — คลาวด์ Amazon (ถูกมาก)</li>
+    </ul>
+    <p style="margin-top:20px;">รายละเอียดทีละขั้นในไฟล์ <code>DEPLOY.md</code></p>
+  </section>
+
+  <!-- ================= สไลด์ 13: จบ ================= -->
+  <section class="slide center">
+    <div class="big-emoji">🎉</div>
+    <h1>ขอบคุณครับ/ค่ะ</h1>
+    <p>ตอนนี้คุณสร้างเว็บเกมเป็นแล้ว และพร้อมสอนคนอื่นต่อได้เลย!</p>
+  </section>
+
+  <!-- แถบบอกวิธีใช้และปุ่มควบคุม -->
+  <div class="hint">⌨️ ใช้ปุ่มลูกศร ← → เปลี่ยนสไลด์</div>
+  <div class="page-num"><span id="current">1</span> / <span id="total">12</span></div>
+  <div class="controls">
+    <button id="prev">◀</button>
+    <button id="next">▶</button>
+  </div>
+
+  <script>
+    // ===== สคริปต์ควบคุมการเปลี่ยนสไลด์ =====
+    const slides = document.querySelectorAll(".slide");
+    const currentText = document.getElementById("current");
+    const totalText = document.getElementById("total");
+    let index = 0;                       // สไลด์ที่กำลังแสดง (เริ่มที่ 0)
+
+    totalText.textContent = slides.length;
+
+    // ฟังก์ชันแสดงสไลด์ตามหมายเลข
+    function showSlide(n) {
+      // วนไม่ให้เกินขอบเขต
+      if (n < 0) n = 0;
+      if (n > slides.length - 1) n = slides.length - 1;
+      index = n;
+
+      // ซ่อนทุกสไลด์ แล้วโชว์เฉพาะอันที่เลือก
+      slides.forEach((s) => s.classList.remove("active"));
+      slides[index].classList.add("active");
+      currentText.textContent = index + 1;
+    }
+
+    // ปุ่มถัดไป / ก่อนหน้า
+    document.getElementById("next").addEventListener("click", () => showSlide(index + 1));
+    document.getElementById("prev").addEventListener("click", () => showSlide(index - 1));
+
+    // ใช้คีย์บอร์ดลูกศรควบคุมได้ด้วย
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") showSlide(index + 1);
+      if (e.key === "ArrowLeft") showSlide(index - 1);
+    });
+  </script>
+</body>
+</html>
