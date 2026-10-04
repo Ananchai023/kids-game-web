@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!-- เกมทายคำศัพท์ - ดูรูปแล้วเลือกคำที่ถูก ทั้งไทยและอังกฤษ -->
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เกมทายคำศัพท์ 📚</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body class="game-page">
+
+  <a class="back-btn" href="../index.html">⬅ กลับหน้าเมนู</a>
+  <h1 class="game-title">📚 เกมทายคำศัพท์</h1>
+
+  <!-- ===== หน้าตั้งค่า ===== -->
+  <section id="setup">
+    <p style="text-align:center;color:#fff;font-weight:bold;">เลือกหมวดคำ</p>
+    <div class="option-row" id="themeRow"></div>
+
+    <p style="text-align:center;color:#fff;font-weight:bold;">จำนวนข้อ</p>
+    <div class="option-row" id="countRow"></div>
+
+    <div style="text-align:center;">
+      <button class="btn" id="startBtn">▶ เริ่มเล่น</button>
+    </div>
+    <p class="message" id="bestText" style="font-size:1rem;"></p>
+  </section>
+
+  <!-- ===== หน้าเล่น ===== -->
+  <section id="play" style="display:none;flex-direction:column;align-items:center;width:100%;">
+    <div class="status-bar">
+      <span>⭐ คะแนน: <span id="score">0</span></span>
+      <span>✅ ถูก: <span id="correct">0</span></span>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-progress" id="progress">ข้อ 1 / 5</div>
+      <div class="quiz-image" id="image">❓</div>
+      <div class="quiz-question" id="question">นี่คืออะไร?</div>
+      <div class="quiz-options" id="options"></div>
+    </div>
+    <p class="message" id="message"></p>
+    <button class="btn btn-ghost" id="quitBtn" style="margin-top:8px;">⚙️ เปลี่ยนหมวด</button>
+  </section>
+
+  <!-- ===== ผลลัพธ์ ===== -->
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <div class="modal-emoji" id="modalEmoji">🎉</div>
+      <h2 id="modalTitle">เก่งมาก!</h2>
+      <p id="modalText"></p>
+      <div class="modal-stars" id="modalStars"></div>
+      <div class="modal-buttons">
+        <button class="btn" id="againBtn">🔄 เล่นอีก</button>
+        <button class="btn btn-ghost" id="menuBtn">⚙️ เปลี่ยนหมวด</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/common.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/quiz.js"></script>
+</body>
+</html>

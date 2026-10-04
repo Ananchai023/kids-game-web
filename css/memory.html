@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!-- เกมจับคู่การ์ด (Memory) - จับคู่รูปกับคำ พร้อมเลือกหมวดและระดับ -->
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เกมจับคู่การ์ด 🃏</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body class="game-page">
+
+  <a class="back-btn" href="../index.html">⬅ กลับหน้าเมนู</a>
+  <h1 class="game-title">🃏 เกมจับคู่การ์ด</h1>
+
+  <!-- ===== หน้าตั้งค่า: เลือกหมวด + ระดับ ===== -->
+  <section id="setup">
+    <p class="message" style="color:#fff;">เลือกหมวดคำ แล้วเลือกความยาก</p>
+
+    <p style="text-align:center;color:#fff;font-weight:bold;">หมวดคำ</p>
+    <div class="option-row" id="themeRow"></div>
+
+    <p style="text-align:center;color:#fff;font-weight:bold;">ความยาก</p>
+    <div class="option-row" id="levelRow"></div>
+
+    <div style="text-align:center;">
+      <button class="btn" id="startBtn">▶ เริ่มเล่น</button>
+    </div>
+    <p class="message" id="bestText" style="font-size:1rem;"></p>
+  </section>
+
+  <!-- ===== หน้าเล่น ===== -->
+  <section id="play" style="display:none;width:100%;display:flex;flex-direction:column;align-items:center;">
+    <div class="status-bar">
+      <span>⭐ คะแนน: <span id="score">0</span></span>
+      <span>พลิก: <span id="moves">0</span></span>
+      <span>คู่: <span id="pairs">0</span>/<span id="totalPairs">0</span></span>
+    </div>
+    <p class="message" id="statusText" style="min-height:26px;"></p>
+    <div class="memory-board" id="board"></div>
+    <div style="margin-top:18px;display:flex;gap:10px;">
+      <button class="btn" id="restartBtn">🔄 เริ่มใหม่</button>
+      <button class="btn btn-ghost" id="changeBtn">⚙️ เปลี่ยนหมวด</button>
+    </div>
+  </section>
+
+  <!-- ===== หน้าต่างผลลัพธ์ ===== -->
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <div class="modal-emoji" id="modalEmoji">🎉</div>
+      <h2 id="modalTitle">เก่งมาก!</h2>
+      <p id="modalText"></p>
+      <div class="modal-stars" id="modalStars"></div>
+      <div class="modal-buttons">
+        <button class="btn" id="againBtn">🔄 เล่นอีก</button>
+        <button class="btn btn-ghost" id="menuBtn">⚙️ เปลี่ยนหมวด</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/common.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/memory.js"></script>
+</body>
+</html>

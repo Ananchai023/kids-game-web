@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!-- เกมฝึกพิมพ์ดีดภาษาอังกฤษ (Keyboard Adventure) พร้อมเสียงอ่านออกเสียง -->
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เกมฝึกพิมพ์ดีด ⌨️</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/typing.css" />
+</head>
+
+<body class="typing-page">
+
+  <a class="back-btn" href="../index.html">⬅ กลับหน้าเมนู</a>
+
+  <div class="typing-container">
+    <header class="typing-header">
+      <h1>⌨️ ฝึกพิมพ์ดีด</h1>
+      <p class="subtitle">Keyboard Adventure — เรียนพิมพ์ภาษาอังกฤษ มีเสียงอ่านให้ฟัง 🔊</p>
+    </header>
+
+    <div class="stats-bar">
+      <div class="stat"><span class="stat-icon">⭐</span><span class="stat-label">คะแนน</span><span class="stat-value" id="score">0</span></div>
+      <div class="stat"><span class="stat-icon">🔥</span><span class="stat-label">ต่อเนื่อง</span><span class="stat-value" id="streak">0</span></div>
+      <div class="stat"><span class="stat-icon">⏱️</span><span class="stat-label">เวลา</span><span class="stat-value" id="timer">60</span></div>
+      <div class="stat"><span class="stat-icon">🎯</span><span class="stat-label">เลเวล</span><span class="stat-value" id="level">1</span></div>
+    </div>
+
+    <!-- เลือกโหมด -->
+    <div class="mode-selection" id="modeSelection">
+      <h2>เลือกโหมดที่อยากเล่น!</h2>
+      <div class="mode-cards">
+        <button class="mode-card" data-mode="letters"><span class="mode-emoji">🔤</span><span class="mode-title">ตัวอักษร</span><span class="mode-desc">เรียนรู้ A–Z</span></button>
+        <button class="mode-card" data-mode="words"><span class="mode-emoji">📝</span><span class="mode-title">คำง่ายๆ</span><span class="mode-desc">พิมพ์คำสั้นๆ</span></button>
+        <button class="mode-card" data-mode="animals"><span class="mode-emoji">🐾</span><span class="mode-title">สัตว์</span><span class="mode-desc">พิมพ์ชื่อสัตว์</span></button>
+        <button class="mode-card" data-mode="sentences"><span class="mode-emoji">💬</span><span class="mode-title">ประโยค</span><span class="mode-desc">พิมพ์ทั้งประโยค</span></button>
+      </div>
+    </div>
+
+    <!-- พื้นที่เล่น -->
+    <div class="game-area" id="gameArea" style="display:none;">
+      <div class="target-display" id="targetDisplay">
+        <div class="target-letter" id="targetLetter"></div>
+        <div class="target-hint" id="targetHint"></div>
+        <button class="btn-hear-again" id="btnHearAgain">🔊 ฟังอีกครั้ง</button>
+      </div>
+      <div class="input-area">
+        <div class="typed-key-display" id="typedKeyDisplay"></div>
+        <input type="text" id="playerInput" class="player-input" autocomplete="off" autocapitalize="off" placeholder="พิมพ์ที่นี่..." />
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+        <span class="progress-text" id="progressText">0 / 10</span>
+      </div>
+    </div>
+
+    <!-- คีย์บอร์ดเสมือน -->
+    <div class="virtual-keyboard" id="virtualKeyboard">
+      <div class="keyboard-row">
+        <button class="key" data-key="q">Q</button><button class="key" data-key="w">W</button><button class="key" data-key="e">E</button><button class="key" data-key="r">R</button><button class="key" data-key="t">T</button><button class="key" data-key="y">Y</button><button class="key" data-key="u">U</button><button class="key" data-key="i">I</button><button class="key" data-key="o">O</button><button class="key" data-key="p">P</button>
+      </div>
+      <div class="keyboard-row">
+        <button class="key" data-key="a">A</button><button class="key" data-key="s">S</button><button class="key" data-key="d">D</button><button class="key" data-key="f">F</button><button class="key" data-key="g">G</button><button class="key" data-key="h">H</button><button class="key" data-key="j">J</button><button class="key" data-key="k">K</button><button class="key" data-key="l">L</button>
+      </div>
+      <div class="keyboard-row">
+        <button class="key" data-key="z">Z</button><button class="key" data-key="x">X</button><button class="key" data-key="c">C</button><button class="key" data-key="v">V</button><button class="key" data-key="b">B</button><button class="key" data-key="n">N</button><button class="key" data-key="m">M</button>
+      </div>
+      <div class="keyboard-row">
+        <button class="key key-space" data-key=" ">SPACE</button>
+      </div>
+    </div>
+
+    <!-- ผลลัพธ์ -->
+    <div class="results-screen" id="resultsScreen" style="display:none;">
+      <h2 id="resultsTitle">🎉 เยี่ยมมาก!</h2>
+      <div class="results-stats">
+        <div class="result-item"><span class="result-label">คะแนนรวม</span><span class="result-value" id="finalScore">0</span></div>
+        <div class="result-item"><span class="result-label">ความแม่นยำ</span><span class="result-value" id="finalAccuracy">0%</span></div>
+        <div class="result-item"><span class="result-label">ต่อเนื่องสูงสุด</span><span class="result-value" id="finalStreak">0</span></div>
+        <div class="result-item"><span class="result-label">พิมพ์สำเร็จ</span><span class="result-value" id="finalWords">0</span></div>
+      </div>
+      <div class="stars-earned" id="starsEarned"></div>
+      <button class="btn-play-again" id="btnPlayAgain">🔄 เล่นอีกครั้ง</button>
+      <button class="btn-menu" id="btnMenu">🏠 เลือกโหมด</button>
+    </div>
+
+    <!-- ปุ่มควบคุม -->
+    <div class="controls" id="controls" style="display:none;">
+      <button class="btn-control" id="btnPause">⏸️ พัก</button>
+      <button class="btn-control" id="btnToMenu">🏠 เลือกโหมด</button>
+    </div>
+  </div>
+
+  <script src="../js/common.js"></script>
+  <script src="../js/typing.js"></script>
+</body>
+</html>

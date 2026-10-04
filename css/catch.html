@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!-- เกมจับผลไม้ - คลิกจับผลไม้ หลบระเบิด มีระดับความยากและชีวิต -->
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เกมจับผลไม้ 🍎</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body class="game-page">
+
+  <a class="back-btn" href="../index.html">⬅ กลับหน้าเมนู</a>
+  <h1 class="game-title">🍎 เกมจับผลไม้</h1>
+
+  <!-- ===== หน้าตั้งค่า ===== -->
+  <section id="setup">
+    <p style="text-align:center;color:#fff;font-weight:bold;">เลือกระดับความยาก</p>
+    <div class="option-row" id="levelRow"></div>
+    <p class="message" style="font-size:1rem;color:#fff;">
+      คลิกจับผลไม้เพื่อได้คะแนน 🍎 · หลบระเบิด 💣 · อย่าให้ผลไม้ตกพื้นเกิน 3 ลูก
+    </p>
+    <div style="text-align:center;">
+      <button class="btn" id="startBtn">▶ เริ่มเล่น</button>
+    </div>
+    <p class="message" id="bestText" style="font-size:1rem;"></p>
+  </section>
+
+  <!-- ===== หน้าเล่น ===== -->
+  <section id="play" style="display:none;flex-direction:column;align-items:center;width:100%;">
+    <div class="status-bar">
+      <span>⭐ คะแนน: <span id="score">0</span></span>
+      <span>⏱️ เวลา: <span id="time">40</span></span>
+      <span class="hearts" id="hearts">❤️❤️❤️</span>
+    </div>
+    <div class="catch-area" id="area"></div>
+  </section>
+
+  <!-- ===== ผลลัพธ์ ===== -->
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <div class="modal-emoji" id="modalEmoji">🎉</div>
+      <h2 id="modalTitle">จบเกม!</h2>
+      <p id="modalText"></p>
+      <div class="modal-stars" id="modalStars"></div>
+      <div class="modal-buttons">
+        <button class="btn" id="againBtn">🔄 เล่นอีก</button>
+        <button class="btn btn-ghost" id="menuBtn">⚙️ เปลี่ยนระดับ</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/common.js"></script>
+  <script src="../js/catch.js"></script>
+</body>
+</html>

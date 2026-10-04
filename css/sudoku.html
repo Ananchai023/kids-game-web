@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!-- เกมซูโดกุ - เกมตัวเลขลับสมอง เลือกขนาดกระดาน 4x4/6x6/9x9 -->
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#764ba2" />
+  <title>เกมซูโดกุ 🔢</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/sudoku.css" />
+</head>
+<body class="sudoku-page">
+  <div class="app">
+    <a class="back-btn sudoku-back" href="../index.html">⬅ กลับหน้าเมนู</a>
+
+    <header class="topbar">
+      <div class="titlebar">
+        <h1 class="sudoku-title">🔢 ซูโดกุ</h1>
+        <button id="playerBtn" class="player-chip" aria-label="ผู้เล่น">
+          <span class="player-avatar" id="playerAvatar">?</span>
+          <span class="player-name" id="playerName">ผู้เล่น</span>
+        </button>
+      </div>
+      <div class="stats">
+        <div class="stat"><span class="stat-label">กระดาน</span><span id="sizeLabel" class="stat-value">9×9</span></div>
+        <div class="stat"><span class="stat-label">ระดับ</span><span id="difficultyLabel" class="stat-value">ง่าย</span></div>
+        <div class="stat"><span class="stat-label">ผิดพลาด</span><span id="mistakes" class="stat-value">0/3</span></div>
+        <div class="stat"><span class="stat-label">เวลา</span><span id="timer" class="stat-value">00:00</span></div>
+      </div>
+    </header>
+
+    <main class="board-wrap">
+      <div id="board" class="board" role="grid" aria-label="กระดานซูโดกุ"></div>
+    </main>
+
+    <section class="pad">
+      <div class="tools">
+        <button class="tool" id="undoBtn" aria-label="ย้อนกลับ"><span class="tool-icon">↶</span><span class="tool-text">ย้อนกลับ</span></button>
+        <button class="tool" id="eraseBtn" aria-label="ลบ"><span class="tool-icon">⌫</span><span class="tool-text">ลบ</span></button>
+        <button class="tool" id="notesBtn" aria-label="สลับโหมดโน้ต"><span class="tool-icon">✎</span><span class="tool-text">โน้ต</span><span id="notesState" class="badge">ปิด</span></button>
+        <button class="tool" id="hintBtn" aria-label="ใบ้"><span class="tool-icon">💡</span><span class="tool-text">ใบ้</span></button>
+      </div>
+
+      <div id="numpad" class="numpad"></div>
+
+      <div class="bottom-actions">
+        <button id="statsBtn" class="secondary">📊 สถิติ</button>
+        <button id="newGameBtn" class="new-game">เกมใหม่</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- เกมใหม่: เลือกขนาด + ระดับ -->
+  <div id="overlay" class="overlay hidden">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+      <h2 id="dialogTitle">เกมใหม่</h2>
+      <p class="section-label">ขนาดกระดาน</p>
+      <div class="size-list" id="sizeList">
+        <button class="size-btn" data-size="4x4"><b>4 × 4</b><span>กล่อง 2×2 · ง่ายสุด</span></button>
+        <button class="size-btn" data-size="6x6"><b>6 × 6</b><span>กล่อง 2×3</span></button>
+        <button class="size-btn selected" data-size="9x9"><b>9 × 9</b><span>กล่อง 3×3 · คลาสสิก</span></button>
+      </div>
+      <p class="section-label">ระดับความยาก</p>
+      <div class="difficulty-list">
+        <button class="diff-btn" data-diff="easy">ง่าย</button>
+        <button class="diff-btn" data-diff="medium">ปานกลาง</button>
+        <button class="diff-btn" data-diff="hard">ยาก</button>
+        <button class="diff-btn" data-diff="expert">โหด</button>
+      </div>
+      <button id="cancelDialog" class="ghost">ยกเลิก</button>
+    </div>
+  </div>
+
+  <!-- เลือกผู้เล่น -->
+  <div id="playerOverlay" class="overlay hidden">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="playerTitle">
+      <h2 id="playerTitle">ใครกำลังเล่น?</h2>
+      <p class="dialog-sub">เลือกผู้เล่นหรือเพิ่มคนใหม่</p>
+      <div class="player-list" id="playerList"></div>
+      <div class="add-player">
+        <input id="newPlayerInput" type="text" maxlength="16" placeholder="ชื่อผู้เล่นใหม่" />
+        <button id="addPlayerBtn" class="new-game">เพิ่ม</button>
+      </div>
+      <button id="closePlayer" class="ghost">ปิด</button>
+    </div>
+  </div>
+
+  <!-- สถิติ / กระดานอันดับ -->
+  <div id="statsOverlay" class="overlay hidden">
+    <div class="dialog wide" role="dialog" aria-modal="true" aria-labelledby="statsTitle">
+      <h2 id="statsTitle">กระดานอันดับ</h2>
+      <p class="dialog-sub">จำนวนด่านที่ผ่านของแต่ละคน</p>
+      <div class="leaderboard" id="leaderboard"></div>
+      <button id="closeStats" class="ghost">ปิด</button>
+    </div>
+  </div>
+
+  <!-- ชนะ / แพ้ -->
+  <div id="winOverlay" class="overlay hidden">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+      <div class="win-emoji">🎉</div>
+      <h2 id="winTitle">แก้สำเร็จ!</h2>
+      <p id="winStats" class="dialog-sub"></p>
+      <button id="playAgain" class="new-game">เล่นอีกครั้ง</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="../js/common.js"></script>
+  <script src="../js/sudoku-engine.js"></script>
+  <script src="../js/sudoku-players.js"></script>
+  <script src="../js/sudoku.js"></script>
+</body>
+</html>
