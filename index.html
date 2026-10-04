@@ -1,57 +1,79 @@
 <!DOCTYPE html>
 <!--
-  index.html = หน้าแรก (หน้าเมนู) ของเว็บเกมเด็ก
-  ไฟล์นี้คือ "หน้าบ้าน" ที่เด็กๆ จะเห็นเป็นหน้าแรกเมื่อเปิดเว็บ
+  index.html = หน้าแรก (หน้าเมนู) ของเว็บรวมเกมเด็ก
+  เด็กๆ เลือกเกมที่อยากเล่นได้จากการ์ดด้านล่าง
 -->
 <html lang="th">
 <head>
-  <!-- charset บอกว่าใช้ภาษาไทยได้ ไม่ให้ตัวอักษรเพี้ยน -->
   <meta charset="UTF-8" />
-  <!-- viewport ทำให้เว็บแสดงผลสวยบนมือถือ/แท็บเล็ต -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>สวนสนุกเกมเด็ก 🎈</title>
-
-  <!-- ดึงไฟล์ตกแต่ง (CSS) เข้ามาใช้ -->
+  <title>สวนสนุกเกมเด็ก 🎈 รวมเกมฝึกสมอง</title>
+  <meta name="description" content="เว็บรวมเกมฝึกสมองสำหรับเด็ก เล่นได้ฟรีบนเบราว์เซอร์ ทั้งจับคู่ คิดเลข ทายคำศัพท์ พิมพ์ดีด และซูโดกุ" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body class="home">
 
-  <!-- ส่วนหัวของหน้า -->
   <header class="hero">
     <h1>🎈 สวนสนุกเกมเด็ก 🎠</h1>
-    <p class="subtitle">เลือกเกมที่อยากเล่นได้เลย!</p>
+    <p class="subtitle">เลือกเกมที่อยากเล่นได้เลย! ฝึกสมอง ฝึกภาษา ฝึกนิ้ว 🌈</p>
   </header>
 
-  <!-- ส่วนแสดงการ์ดเกมทั้งหมด -->
   <main class="menu">
 
-    <!-- การ์ดเกมที่ 1 -->
     <a class="game-card color-1" href="games/memory.html">
       <div class="game-icon">🃏</div>
-      <h2>เกมจับคู่การ์ด</h2>
-      <p>พลิกการ์ดหาคู่ที่เหมือนกัน</p>
+      <h2>จับคู่การ์ด</h2>
+      <p>พลิกการ์ดจับคู่รูปกับคำ ฝึกความจำ</p>
+      <span class="tag">ความจำ</span>
     </a>
 
-    <!-- การ์ดเกมที่ 2 -->
     <a class="game-card color-2" href="games/math.html">
       <div class="game-icon">➕</div>
-      <h2>เกมบวกเลข</h2>
-      <p>ฝึกคิดเลขให้เก่งขึ้น</p>
+      <h2>คิดเลขเร็ว</h2>
+      <p>บวก ลบ คูณ เลือกระดับความยากได้</p>
+      <span class="tag">คณิตศาสตร์</span>
     </a>
 
-    <!-- การ์ดเกมที่ 3 -->
     <a class="game-card color-3" href="games/catch.html">
       <div class="game-icon">🍎</div>
-      <h2>เกมจับผลไม้</h2>
-      <p>คลิกจับผลไม้ให้ทันเวลา</p>
+      <h2>จับผลไม้</h2>
+      <p>คลิกจับผลไม้ หลบระเบิด ทำคะแนนให้ทัน</p>
+      <span class="tag">ว่องไว</span>
+    </a>
+
+    <a class="game-card color-4" href="games/quiz.html">
+      <div class="game-icon">📚</div>
+      <h2>ทายคำศัพท์</h2>
+      <p>ดูรูปแล้วเลือกคำ ไทย–อังกฤษ</p>
+      <span class="tag">ภาษา</span>
+    </a>
+
+    <a class="game-card color-5" href="games/typing.html">
+      <div class="game-icon">⌨️</div>
+      <h2>ฝึกพิมพ์ดีด</h2>
+      <p>พิมพ์ตัวอักษรและคำภาษาอังกฤษ มีเสียงอ่าน</p>
+      <span class="tag">พิมพ์ดีด</span>
+    </a>
+
+    <a class="game-card color-6" href="games/sudoku.html">
+      <div class="game-icon">🔢</div>
+      <h2>ซูโดกุ</h2>
+      <p>เกมตัวเลขลับสมอง เลือกขนาด 4×4 ถึง 9×9</p>
+      <span class="tag">ตรรกะ</span>
+    </a>
+
+    <a class="game-card color-7" href="games/codequest.html">
+      <div class="game-icon">🚀</div>
+      <h2>Code Quest</h2>
+      <p>พาหุ่นยนต์เก็บดาว ฝึกเขียนโปรแกรมจากง่ายถึงมหาลัย</p>
+      <span class="tag">เขียนโค้ด</span>
     </a>
 
   </main>
 
-  <!-- ส่วนท้ายของหน้า -->
   <footer class="footer">
-    <p>สร้างด้วย ❤️ เพื่อการเรียนรู้ • HTML + CSS + JavaScript</p>
+    <p>สร้างด้วย ❤️ เพื่อการเรียนรู้ • HTML + CSS + JavaScript • เล่นได้ทุกเบราว์เซอร์</p>
   </footer>
 
 </body>
