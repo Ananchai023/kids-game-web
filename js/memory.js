@@ -1,124 +1,202 @@
 /* =====================================================
-   memory.js = "สมอง" ของเกมจับคู่การ์ด
-   JavaScript ทำให้เว็บ "ขยับได้" และ "โต้ตอบกับเราได้"
+   memory.js = สมองของเกมจับคู่การ์ด (ฉบับปรับปรุง)
+   ปรับปรุงจากเดิม:
+   - เลือกหมวดคำได้หลายหมวด (สัตว์/ผลไม้/สี/อาหาร/ยานพาหนะ)
+   - เลือกระดับความยาก 3 ระดับ (จำนวนคู่ต่างกัน)
+   - จับคู่ "รูป" กับ "คำ" เพื่อฝึกเชื่อมโยงภาพกับคำศัพท์
+   - มีช่วงพรีวิวการ์ดก่อนเริ่ม, มีเสียง, มีคะแนน, เก็บสถิติดีที่สุด
    ===================================================== */
 
-// รูปที่จะใช้ในเกม (8 แบบ = 8 คู่ = 16 การ์ด)
-const emojis = ["🐶", "🐱", "🐰", "🦊", "🐼", "🐸", "🦁", "🐵"];
+// ระดับความยาก: pairs = จำนวนคู่, preview = วินาทีที่โชว์ก่อนเริ่ม
+const LEVELS = [
+  { id: "easy",   name: "ง่าย ⭐",       pairs: 4, preview: 3, cols: 4 },
+  { id: "medium", name: "ปานกลาง ⭐⭐",   pairs: 6, preview: 2, cols: 4 },
+  { id: "hard",   name: "ยาก ⭐⭐⭐",      pairs: 8, preview: 2, cols: 4 },
+];
 
-// ตัวแปรเก็บสถานะของเกม
-let firstCard = null;   // การ์ดใบแรกที่ถูกเปิด
-let secondCard = null;  // การ์ดใบที่สอง
-let lockBoard = false;  // ล็อกกระดานชั่วคราวตอนกำลังตรวจว่าตรงกันไหม
-let moves = 0;          // นับจำนวนครั้งที่พลิก
-let pairsFound = 0;     // นับจำนวนคู่ที่จับได้
+// สถานะที่ผู้เล่นเลือกไว้
+let selTheme = "animals";
+let selLevel = LEVELS[0];
 
-// ดึง element จากหน้าเว็บมาเก็บไว้ใช้งาน
-const board = document.getElementById("board");
-const movesText = document.getElementById("moves");
-const pairsText = document.getElementById("pairs");
-const messageText = document.getElementById("message");
-const restartBtn = document.getElementById("restart");
+// สถานะระหว่างเล่น
+const g = { cards: [], flipped: [], matched: 0, moves: 0, score: 0, lock: true, total: 0 };
 
-// ฟังก์ชันสลับลำดับสิ่งของในอาเรย์ (สับไพ่ให้สุ่ม)
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]; // สลับตำแหน่งกัน
-  }
-  return array;
-}
+// element
+const setupEl = $("#setup");
+const playEl = $("#play");
+const boardEl = $("#board");
+const themeRow = $("#themeRow");
+const levelRow = $("#levelRow");
 
-// ฟังก์ชันเริ่มเกม / เริ่มใหม่
-function startGame() {
-  // รีเซ็ตค่าต่างๆ กลับเป็นเริ่มต้น
-  board.innerHTML = "";
-  firstCard = null;
-  secondCard = null;
-  lockBoard = false;
-  moves = 0;
-  pairsFound = 0;
-  movesText.textContent = moves;
-  pairsText.textContent = pairsFound;
-  messageText.textContent = "";
+// ---------- สร้างปุ่มเลือกหมวด/ระดับในหน้าตั้งค่า ----------
+function buildSetup() {
+  themeRow.innerHTML = "";
+  Object.keys(GAME_DATA).forEach(key => {
+    const t = GAME_DATA[key];
+    const b = document.createElement("button");
+    b.className = "pill" + (key === selTheme ? " active" : "");
+    b.textContent = `${t.icon} ${t.name}`;
+    b.onclick = () => { selTheme = key; Sound.click(); buildSetup(); updateBest(); };
+    themeRow.appendChild(b);
+  });
 
-  // เอารูป 8 แบบมาทำเป็นคู่ (2 ชุด) แล้วสับให้สุ่ม
-  const cards = shuffle([...emojis, ...emojis]);
-
-  // สร้างการ์ดทีละใบใส่ลงกระดาน
-  cards.forEach((emoji) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.dataset.emoji = emoji;               // จำว่าการ์ดนี้คือรูปอะไร
-    card.innerHTML = `<span class="front">${emoji}</span>`;
-
-    // เมื่อคลิกการ์ด ให้เรียกฟังก์ชัน flipCard
-    card.addEventListener("click", () => flipCard(card));
-
-    board.appendChild(card);
+  levelRow.innerHTML = "";
+  LEVELS.forEach(lv => {
+    const b = document.createElement("button");
+    b.className = "pill" + (lv.id === selLevel.id ? " active" : "");
+    b.textContent = lv.name;
+    b.onclick = () => { selLevel = lv; Sound.click(); buildSetup(); updateBest(); };
+    levelRow.appendChild(b);
   });
 }
 
-// ฟังก์ชันพลิกการ์ด
-function flipCard(card) {
-  // ถ้ากระดานถูกล็อก หรือคลิกใบเดิมซ้ำ หรือการ์ดจับคู่ไปแล้ว => ไม่ทำอะไร
-  if (lockBoard) return;
-  if (card === firstCard) return;
-  if (card.classList.contains("matched")) return;
-
-  // เปิดการ์ด (โชว์รูป)
-  card.classList.add("flipped");
-
-  // ถ้ายังไม่มีการ์ดใบแรก ให้เก็บใบนี้เป็นใบแรก
-  if (!firstCard) {
-    firstCard = card;
-    return;
-  }
-
-  // มาถึงตรงนี้แสดงว่านี่คือการ์ดใบที่สอง
-  secondCard = card;
-  moves++;                        // นับการพลิกเพิ่ม
-  movesText.textContent = moves;
-
-  checkMatch();                   // ตรวจว่าตรงกันไหม
+function bestKey() { return `memory_${selTheme}_${selLevel.id}`; }
+function updateBest() {
+  const best = Store.getBest(bestKey());
+  $("#bestText").textContent = best ? `🏅 คะแนนสูงสุดหมวดนี้: ${best}` : "ยังไม่เคยเล่นหมวดนี้";
 }
 
-// ฟังก์ชันตรวจว่าการ์ด 2 ใบตรงกันหรือไม่
-function checkMatch() {
-  const isMatch = firstCard.dataset.emoji === secondCard.dataset.emoji;
+// ---------- เริ่มเกม ----------
+function startGame() {
+  const theme = GAME_DATA[selTheme];
+  const pairs = Math.min(selLevel.pairs, theme.items.length);
+  g.total = pairs;
+  g.flipped = [];
+  g.matched = 0;
+  g.moves = 0;
+  g.score = 0;
+  g.lock = true;
 
-  if (isMatch) {
-    // ตรงกัน! ทำให้เป็นสถานะ matched (สีเขียว เปิดค้างไว้)
-    firstCard.classList.add("matched");
-    secondCard.classList.add("matched");
-    pairsFound++;
-    pairsText.textContent = pairsFound;
-    resetTurn();
+  $("#score").textContent = "0";
+  $("#moves").textContent = "0";
+  $("#pairs").textContent = "0";
+  $("#totalPairs").textContent = pairs;
 
-    // ถ้าครบ 8 คู่ = ชนะ
-    if (pairsFound === emojis.length) {
-      messageText.textContent = "🎉 เก่งมาก! จับคู่ได้ครบแล้ว!";
+  // เลือกคำมา pairs คำ แล้วทำเป็นการ์ด 2 แบบ: รูป + คำ
+  const picked = shuffle(theme.items).slice(0, pairs);
+  let cards = [];
+  picked.forEach((item, i) => {
+    cards.push({ pairId: i, kind: "emoji", show: item.emoji });
+    cards.push({ pairId: i, kind: "word", show: item.th });
+  });
+  g.cards = shuffle(cards);
+
+  // วาดกระดาน
+  const cols = Math.min(selLevel.cols, g.cards.length);
+  boardEl.style.gridTemplateColumns = `repeat(${cols}, 84px)`;
+  boardEl.innerHTML = "";
+  g.cards.forEach((card, idx) => {
+    const el = document.createElement("div");
+    el.className = "card flipped"; // โชว์ก่อน (พรีวิว)
+    el.dataset.idx = idx;
+    el.innerHTML = `
+      <div class="face back">❓</div>
+      <div class="face front ${card.kind === "emoji" ? "emoji" : ""}">${card.show}</div>`;
+    el.onclick = () => onCardClick(idx, el);
+    boardEl.appendChild(el);
+  });
+
+  // สลับหน้า
+  setupEl.style.display = "none";
+  playEl.style.display = "flex";
+
+  // นับถอยหลังพรีวิว
+  let t = selLevel.preview;
+  $("#statusText").textContent = `จำให้ดีนะ! เริ่มใน ${t}...`;
+  const timer = setInterval(() => {
+    t--;
+    if (t > 0) {
+      $("#statusText").textContent = `จำให้ดีนะ! เริ่มใน ${t}...`;
+    } else {
+      clearInterval(timer);
+      $$("#board .card").forEach(c => c.classList.remove("flipped"));
+      $("#statusText").textContent = "พลิกการ์ดหาคู่ รูป 🖼️ กับ คำ 🔤 ที่ตรงกัน!";
+      g.lock = false;
     }
-  } else {
-    // ไม่ตรงกัน ล็อกกระดานแล้วรอ 0.8 วินาที ค่อยพลิกกลับ
-    lockBoard = true;
-    setTimeout(() => {
-      firstCard.classList.remove("flipped");
-      secondCard.classList.remove("flipped");
-      resetTurn();
-    }, 800);
+  }, 1000);
+}
+
+// ---------- คลิกการ์ด ----------
+function onCardClick(idx, el) {
+  if (g.lock) return;
+  if (el.classList.contains("flipped") || el.classList.contains("matched")) return;
+  if (g.flipped.length >= 2) return;
+
+  el.classList.add("flipped");
+  Sound.flip();
+  g.flipped.push({ idx, el });
+
+  if (g.flipped.length === 2) {
+    g.moves++;
+    $("#moves").textContent = g.moves;
+    g.lock = true;
+    const [a, b] = g.flipped;
+
+    if (g.cards[a.idx].pairId === g.cards[b.idx].pairId) {
+      // จับคู่ถูก
+      setTimeout(() => {
+        a.el.classList.add("matched");
+        b.el.classList.add("matched");
+        g.matched++;
+        g.score += 10;
+        $("#pairs").textContent = g.matched;
+        $("#score").textContent = g.score;
+        Sound.correct();
+        g.flipped = [];
+        g.lock = false;
+        if (g.matched === g.total) finish();
+      }, 450);
+    } else {
+      // จับคู่ผิด พลิกกลับ
+      Sound.wrong();
+      setTimeout(() => {
+        a.el.classList.remove("flipped");
+        b.el.classList.remove("flipped");
+        g.flipped = [];
+        g.lock = false;
+      }, 850);
+    }
   }
 }
 
-// ฟังก์ชันเคลียร์ค่าเตรียมพลิกรอบใหม่
-function resetTurn() {
-  firstCard = null;
-  secondCard = null;
-  lockBoard = false;
+// ---------- จบเกม ----------
+function finish() {
+  // โบนัสถ้าใช้จำนวนพลิกน้อย
+  const perfect = g.moves === g.total;
+  const bonus = perfect ? 30 : Math.max(0, 20 - (g.moves - g.total) * 2);
+  g.score += bonus;
+  $("#score").textContent = g.score;
+
+  Sound.win();
+  fx.confetti();
+
+  const isRecord = Store.setBest(bestKey(), g.score);
+  const stars = perfect ? "⭐⭐⭐" : g.moves <= g.total + 3 ? "⭐⭐" : "⭐";
+
+  $("#modalEmoji").textContent = perfect ? "🏆" : "🎉";
+  $("#modalTitle").textContent = perfect ? "สุดยอด! ไม่พลาดเลย" : "เก่งมาก!";
+  $("#modalText").textContent =
+    `จับคู่ครบ ${g.total} คู่ ใช้ ${g.moves} ครั้ง\nได้ ${g.score} คะแนน` +
+    (isRecord ? "\n🎊 ทำลายสถิติใหม่!" : "");
+  $("#modalStars").textContent = stars;
+  $("#modal").classList.add("show");
 }
 
-// เมื่อกดปุ่มเริ่มใหม่ ให้เริ่มเกมใหม่
-restartBtn.addEventListener("click", startGame);
+// ---------- กลับหน้าตั้งค่า ----------
+function backToSetup() {
+  $("#modal").classList.remove("show");
+  playEl.style.display = "none";
+  setupEl.style.display = "block";
+  updateBest();
+}
 
-// เริ่มเกมทันทีที่เปิดหน้าเว็บ
-startGame();
+// ---------- ตั้งค่าปุ่ม ----------
+$("#startBtn").onclick = () => { Sound.click(); startGame(); };
+$("#restartBtn").onclick = () => { Sound.click(); startGame(); };
+$("#changeBtn").onclick = () => { Sound.click(); backToSetup(); };
+$("#againBtn").onclick = () => { $("#modal").classList.remove("show"); startGame(); };
+$("#menuBtn").onclick = () => backToSetup();
+
+// เริ่มต้น
+buildSetup();
+updateBest();
